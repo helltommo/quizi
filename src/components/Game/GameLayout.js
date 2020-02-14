@@ -4,7 +4,7 @@ import './steps/Answers.css'
 export default function GameLayout(props) {
     return (
         <div className="row" style={{ height: "85vh" }}>
-            <div className="col l2 s12 hideMobile">
+            <div id="leaderboard" className="col l2 s12 hideMobile">
                 LeaderBoard
             </div>
             <div className="col l10 s12">

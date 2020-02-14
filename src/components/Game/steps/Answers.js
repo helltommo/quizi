@@ -4,23 +4,32 @@ import { QuizContext } from '../../Context/QuizContext';
 import './Answers.css';
 
 export default function Answers(props) {
+    
     const { content } = useContext(QuizContext);
     const [answer, setAnswer] = useState(null);
+    const [timer, setTimer] = useState(8);
+   
     useEffect(() => {
-        const interVal = setInterval(props.onReset, 4000);
+    let interVal = setInterval(Timer, 1000);
+    function Timer(){
+        if (timer !== 0) {
+            setTimer(timer - 1);
+        } else if(timer === 0){
+            props.onReset();
+        }
+    };
         return () => {
+            
             clearInterval(interVal)
         };
-    }, [props.onReset])
+    }, [timer, props])
 
 
     const handleAnswer = (ans) => {
         const userAnswer = ans === content[props.qNum].correctAns;
-        console.log("clicked")
         setAnswer(userAnswer);
+        userAnswer && props.onCalc()   
     }
-
-
 
     const answers = content[props.qNum].answers;
     const question = content[props.qNum].question;
@@ -31,7 +40,7 @@ export default function Answers(props) {
         <div className="answer-container">
             <div className="answer-flex">
                 <div className="flex-top">
-                    <h5>Timer</h5>
+                    <h5>{timer}</h5>
                     <h5>{(answer) ? ansCorrect : ansInCorrect}</h5>
                 </div>
                 <div className="flex-middle">
@@ -47,5 +56,5 @@ export default function Answers(props) {
             </div>
         </div>
     )
-
 }
+

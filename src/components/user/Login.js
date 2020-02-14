@@ -4,8 +4,9 @@ import { UserContext } from './../Context/UserContext';
 import './User.css';
 
 const Login = props => {
-  const { secureUser } = useContext(UserContext);
+  const { secureUser, userData } = useContext(UserContext);
   const [input, setInput] = useState({});
+
 
   const handleSubmit = async evt => {
     evt.preventDefault();
@@ -20,7 +21,16 @@ const Login = props => {
             password: input.password[0]
           }
         );
-        console.log(response.data);
+      
+
+        userData(response.data.user);
+        
+        //console.log(response.data.user);
+        // if(response.data){
+        //   setObject({
+        //     id: response.data,
+        //   });
+        // }
         localStorage.setItem('quiziToken', response.data.token);
         secureUser(true);
         props.history.push('/profile');
@@ -32,6 +42,7 @@ const Login = props => {
 
   const handleChange = evt => {
     setInput({ ...input, [evt.target.id]: [evt.target.value] });
+   
   };
   return (
     <div className="container center">
